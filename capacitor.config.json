@@ -5,6 +5,7 @@
   "server": {
     "url": "https://mc.astraldread.cn:24636/?shell=desktop",
     "cleartext": false,
+    "errorPath": "error.html",
     "allowNavigation": [
       "mc.astraldread.cn",
       "114.66.42.7"
@@ -14,6 +15,18 @@
     "contentInset": "never",
     "limitsNavigationsToAppBoundDomains": false,
     "backgroundColor": "#0a0c12",
-    "scrollEnabled": false
+    "scrollEnabled": false,
+    "preferredContentMode": "mobile"
+  },
+  "plugins": {
+    "StatusBar": {
+      "style": "LIGHT",
+      "backgroundColor": "#0a0c12",
+      "overlaysWebView": false
+    },
+    "Keyboard": {
+      "resize": "native",
+      "resizeOnFullScreen": true
+    }
   }
 }
