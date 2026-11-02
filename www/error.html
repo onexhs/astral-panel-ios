@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>无法连接 · 星骇面板</title>
+  <style>
+    :root { color-scheme: dark; }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; background: #0a0c12; color: #e8eaf0;
+      font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+      -webkit-tap-highlight-color: transparent; }
+    .wrap { min-height: 100%; display: flex; flex-direction: column; align-items: center;
+      justify-content: center; gap: 18px; padding: 32px 28px calc(32px + env(safe-area-inset-bottom)); text-align: center; }
+    .badge { width: 64px; height: 64px; border-radius: 18px; display: grid; place-items: center;
+      background: radial-gradient(120% 120% at 30% 0%, #2a2145, #12141c 70%);
+      box-shadow: 0 12px 32px #00000066, inset 0 1px 0 #ffffff18; }
+    .badge svg { width: 30px; height: 30px; stroke: #b9a7ff; fill: none; stroke-width: 1.8; stroke-linecap: round; }
+    h1 { font-size: 18px; font-weight: 600; margin: 4px 0 0; }
+    p { margin: 0; font-size: 13.5px; line-height: 1.75; color: #8b90a0; max-width: 300px; }
+    .url { font-size: 12px; color: #6b7182; font-family: ui-monospace, Menlo, monospace; word-break: break-all; }
+    button { margin-top: 6px; appearance: none; border: 0; border-radius: 12px; padding: 13px 30px;
+      font-size: 15px; font-weight: 600; color: #fff; background: linear-gradient(135deg, #8b6cf0, #6f52d9);
+      box-shadow: 0 10px 26px #7255e055; transition: transform .12s ease, opacity .2s; }
+    button:active { transform: scale(.97); opacity: .9; }
+    button[disabled] { opacity: .55; }
+    .hint { font-size: 12px; color: #5d6273; margin-top: 2px; }
+    .pulse { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: #8b6cf0;
+      margin-right: 6px; animation: pulse 1.4s ease-in-out infinite; vertical-align: middle; }
+    @keyframes pulse { 0%,100% { opacity: .3; } 50% { opacity: 1; } }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="badge">
+      <svg viewBox="0 0 24 24">
+        <path d="M2 8.5a16 16 0 0 1 20 0M5.5 12.2a10.5 10.5 0 0 1 13 0M9 15.8a5.5 5.5 0 0 1 6 0"/>
+        <circle cx="12" cy="19.2" r="1.1" fill="#b9a7ff" stroke="none"/>
+      </svg>
+    </div>
+    <h1>连不上面板</h1>
+    <p>可能是网络不稳定，或者服务器正在重启。<br>检查一下手机是否能正常上网。</p>
+    <div class="url" id="target">mc.astraldread.cn:24636</div>
+    <button id="retry" type="button">重新连接</button>
+    <div class="hint" id="hint"><span class="pulse"></span>10 秒后自动重试</div>
+  </div>
+  <script>
+    (function () {
+      var target = 'https://mc.astraldread.cn:24636/?shell=desktop';
+      var button = document.getElementById('retry');
+      var hint = document.getElementById('hint');
+      var left = 10;
+      var timer;
+
+      function go() {
+        clearInterval(timer);
+        button.disabled = true;
+        hint.textContent = '正在重新连接…';
+        location.replace(target + '&t=' + Date.now());
+      }
+
+      timer = setInterval(function () {
+        left -= 1;
+        if (left <= 0) { go(); return; }
+        hint.innerHTML = '<span class="pulse"></span>' + left + ' 秒后自动重试';
+      }, 1000);
+
+      button.addEventListener('click', go);
+    })();
+  </script>
+</body>
+</html>
