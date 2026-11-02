@@ -1,4 +1,4 @@
-name: build-ios-ipa
+﻿name: build-ios-ipa
 
 on:
   workflow_dispatch:
@@ -28,6 +28,9 @@ jobs:
         run: |
           npx cap add ios || true
           npx cap sync ios
+
+      - name: Apply branding (icon / launch screen / status bar)
+        run: node scripts/prepare-ios.js
 
       - name: Archive without code signing
         working-directory: ios/App
