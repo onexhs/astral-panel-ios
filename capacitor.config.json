@@ -1,0 +1,19 @@
+{
+  "appId": "cn.astraldread.panel",
+  "appName": "星骇面板",
+  "webDir": "www",
+  "server": {
+    "url": "https://mc.astraldread.cn:24636/?shell=desktop",
+    "cleartext": false,
+    "allowNavigation": [
+      "mc.astraldread.cn",
+      "114.66.42.7"
+    ]
+  },
+  "ios": {
+    "contentInset": "never",
+    "limitsNavigationsToAppBoundDomains": false,
+    "backgroundColor": "#0a0c12",
+    "scrollEnabled": false
+  }
+}
