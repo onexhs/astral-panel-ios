@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>星骇面板</title>
+  <style>
+    html, body { height: 100%; margin: 0; background: #0a0c12; color: #e8eaf0;
+      font-family: -apple-system, "PingFang SC", sans-serif; }
+    .wrap { height: 100%; display: grid; place-items: center; text-align: center; padding: 24px; }
+    .dot { width: 8px; height: 8px; border-radius: 50%; background: #8b6cf0; margin: 0 auto 14px;
+      animation: pulse 1.4s ease-in-out infinite; }
+    @keyframes pulse { 0%,100% { opacity: .35; transform: scale(.8); } 50% { opacity: 1; transform: scale(1.15); } }
+    p { color: #8b90a0; font-size: 13px; margin: 6px 0; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div>
+      <div class="dot"></div>
+      <p>正在连接星骇面板…</p>
+    </div>
+  </div>
+</body>
+</html>
