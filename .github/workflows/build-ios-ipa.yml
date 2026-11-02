@@ -1,0 +1,62 @@
+name: build-ios-ipa
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths-ignore:
+      - 'README.md'
+
+jobs:
+  build:
+    runs-on: macos-14
+    timeout-minutes: 40
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Add and sync iOS platform
+        run: |
+          npx cap add ios || true
+          npx cap sync ios
+
+      - name: Archive without code signing
+        working-directory: ios/App
+        run: |
+          xcodebuild \
+            -workspace App.xcworkspace \
+            -scheme App \
+            -configuration Release \
+            -sdk iphoneos \
+            -archivePath build/App.xcarchive \
+            archive \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY="" \
+            DEVELOPMENT_TEAM="" \
+            PROVISIONING_PROFILE_SPECIFIER=""
+
+      - name: Package into unsigned ipa
+        working-directory: ios/App
+        run: |
+          mkdir -p build/Payload
+          cp -R build/App.xcarchive/Products/Applications/App.app build/Payload/
+          cd build
+          zip -qry AstralPanel-unsigned.ipa Payload
+          ls -lh AstralPanel-unsigned.ipa
+
+      - name: Upload ipa
+        uses: actions/upload-artifact@v4
+        with:
+          name: AstralPanel-unsigned-ipa
+          path: ios/App/build/AstralPanel-unsigned.ipa
+          retention-days: 30
